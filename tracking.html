@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tracking DO</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app" class="container">
+
+    <h1>Tracking Delivery Order</h1>
+
+    <!-- FORM -->
+    <div class="form-box">
+
+        <h2>Tambah Delivery Order</h2>
+
+        <input type="text" v-model="form.nomorDO" readonly>
+
+        <input type="text" placeholder="NIM" v-model="form.nim">
+
+        <input type="text" placeholder="Nama" v-model="form.nama">
+
+        <select v-model="form.ekspedisi">
+            <option value="">Pilih Ekspedisi</option>
+            <option
+                v-for="item in pengirimanList"
+                :key="item.kode"
+                :value="item.nama">
+
+                {{ item.nama }}
+
+            </option>
+        </select>
+
+        <select v-model="form.paket">
+
+            <option value="">Pilih Paket</option>
+
+            <option
+                v-for="item in paket"
+                :key="item.kode"
+                :value="item.kode">
+
+                {{ item.kode }} - {{ item.nama }}
+
+            </option>
+
+        </select>
+
+        <!-- DETAIL PAKET -->
+        <div v-if="selectedPaket">
+
+            <h3>Isi Paket</h3>
+
+            <ul>
+                <li
+                    v-for="item in selectedPaket.isi"
+                    :key="item">
+
+                    {{ item }}
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <input type="date" v-model="form.tanggalKirim">
+
+        <input type="number" v-model="form.total" readonly>
+
+        <button @click="tambahTracking">
+            Tambah DO
+        </button>
+
+    </div>
+
+    <!-- CARI DO -->
+    <div class="tracking-box">
+
+        <h2>Cari Tracking</h2>
+
+        <input
+            type="text"
+            placeholder="Masukkan Nomor DO"
+            v-model="cariDO">
+
+        <button @click="cariTracking">
+             Cari
+        </button>
+
+    </div>
+
+    <!-- HASIL -->
+    <div v-if="hasilTracking">
+
+        <h2>Detail Pengiriman</h2>
+
+        <p><strong>NIM:</strong> {{ hasilTracking.nim }}</p>
+        <p><strong>Nama:</strong> {{ hasilTracking.nama }}</p>
+        <p><strong>Status:</strong> {{ hasilTracking.status }}</p>
+        <p><strong>Ekspedisi:</strong> {{ hasilTracking.ekspedisi }}</p>
+        <p><strong>Tanggal Kirim:</strong> {{ hasilTracking.tanggalKirim }}</p>
+        <p><strong>Total:</strong> Rp {{ hasilTracking.total }}</p>
+
+        <h3>Perjalanan</h3>
+
+        <ul>
+            <li
+                v-for="item in hasilTracking.perjalanan"
+                :key="item.waktu">
+
+                {{ item.waktu }} - {{ item.keterangan }}
+
+            </li>
+        </ul>
+
+    </div>
+
+</div>
+<script src="js/data-dummy.js"></script>
+<script src="js/tracking-app.js"></script>
+
+</body>
+</html>

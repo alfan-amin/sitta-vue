@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard SITTA</title>
+
+    <link rel="icon" type="image/png" href="assets/logo-ut.png">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="wrapper">
+
+    <div class="sidebar" id="sidebar">
+
+        <div class="sidebar-header">
+            <img src="assets/logo-ut.png" alt="Logo UT">
+            <h2 class="logo-text">SITTA</h2>
+        </div>
+
+        <ul class="sidebar-menu">
+
+            <li>
+                <a href="dashboard.html" class="active">
+                    <i class="fa fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="stok.html">
+                    <i class="fa fa-book"></i>
+                    <span>Informasi Bahan Ajar</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="tracking.html">
+                    <i class="fa fa-truck"></i>
+                    <span>Tracking Pengiriman</span>
+                </a>
+            </li>
+
+            <li class="dropdown-sidebar">
+                <a href="#" onclick="toggleLaporan(event)">
+                    <i class="fa fa-file-lines"></i>
+                    <span>Laporan</span>
+                    <i class="fa fa-chevron-down dropdown-icon" id="iconLaporan"></i>
+                </a>
+
+                <ul class="submenu" id="submenuLaporan">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-chart-line"></i>
+                            <span>Monitoring Progress</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-file"></i>
+                            <span>Rekap Bahan Ajar</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fa fa-clock-rotate-left"></i>
+                    <span>Histori Transaksi</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="main">
+
+        <div class="navbar">
+
+            <div class="nav-left">
+                <button class="icon-btn" onclick="toggleSidebar()">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="nav-right">
+
+                <button class="icon-btn" onclick="toggleFullscreen()">
+                    <i class="fa fa-expand"></i>
+                </button>
+
+                <div class="user-menu">
+                    <div class="user-info" onclick="toggleDropdown()">
+                        <img src="https://i.pravatar.cc/40" alt="User">
+                        <span id="namaUser"></span>
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="#" onclick="logout()">
+                            <i class="fa fa-right-from-bracket"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="content">
+
+            <div class="welcome-card">
+                <h1 id="greeting"></h1>
+                <p>Selamat datang di Sistem Informasi Tracking dan Distribusi Bahan Ajar Universitas Terbuka.</p>
+            </div>
+
+            <div class="card-container">
+
+                <a href="stok.html" class="dashboard-card">
+                    <i class="fa fa-book"></i>
+                    <h3>Informasi Bahan Ajar</h3>
+                    <p>Kelola stok dan data bahan ajar</p>
+                </a>
+
+                <a href="tracking.html" class="dashboard-card">
+                    <i class="fa fa-truck"></i>
+                    <h3>Tracking Pengiriman</h3>
+                    <p>Lacak status Delivery Order</p>
+                </a>
+
+                <div class="dashboard-card">
+                    <i class="fa fa-chart-line"></i>
+                    <h3>Monitoring Progress</h3>
+                    <p>Laporan perkembangan DO</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <i class="fa fa-file"></i>
+                    <h3>Rekap Bahan Ajar</h3>
+                    <p>Rekapitulasi stok bahan ajar</p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
