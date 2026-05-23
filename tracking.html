@@ -3,129 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking Delivery Order</title>
 
-    <title>Tracking DO</title>
-
+    <link rel="icon" type="image/png" href="assets/logo-ut.png">
     <link rel="stylesheet" href="css/style.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 </head>
 <body>
 
-<div id="app" class="container">
+<div class="wrapper">
 
-    <h1>Tracking Delivery Order</h1>
+    <div class="sidebar" id="sidebar">
 
-    <!-- FORM -->
-    <div class="form-box">
-
-        <h2>Tambah Delivery Order</h2>
-
-        <input type="text" v-model="form.nomorDO" readonly>
-
-        <input type="text" placeholder="NIM" v-model="form.nim">
-
-        <input type="text" placeholder="Nama" v-model="form.nama">
-
-        <select v-model="form.ekspedisi">
-            <option value="">Pilih Ekspedisi</option>
-            <option
-                v-for="item in pengirimanList"
-                :key="item.kode"
-                :value="item.nama">
-
-                {{ item.nama }}
-
-            </option>
-        </select>
-
-        <select v-model="form.paket">
-
-            <option value="">Pilih Paket</option>
-
-            <option
-                v-for="item in paket"
-                :key="item.kode"
-                :value="item.kode">
-
-                {{ item.kode }} - {{ item.nama }}
-
-            </option>
-
-        </select>
-
-        <!-- DETAIL PAKET -->
-        <div v-if="selectedPaket">
-
-            <h3>Isi Paket</h3>
-
-            <ul>
-                <li
-                    v-for="item in selectedPaket.isi"
-                    :key="item">
-
-                    {{ item }}
-
-                </li>
-
-            </ul>
-
+        <div class="sidebar-header">
+            <img src="assets/logo-ut.png" alt="Logo UT">
+            <h2 class="logo-text">SITTA</h2>
         </div>
 
-        <input type="date" v-model="form.tanggalKirim">
+        <ul class="sidebar-menu">
 
-        <input type="number" v-model="form.total" readonly>
-
-        <button @click="tambahTracking">
-            Tambah DO
-        </button>
-
-    </div>
-
-    <!-- CARI DO -->
-    <div class="tracking-box">
-
-        <h2>Cari Tracking</h2>
-
-        <input
-            type="text"
-            placeholder="Masukkan Nomor DO"
-            v-model="cariDO">
-
-        <button @click="cariTracking">
-             Cari
-        </button>
-
-    </div>
-
-    <!-- HASIL -->
-    <div v-if="hasilTracking">
-
-        <h2>Detail Pengiriman</h2>
-
-        <p><strong>NIM:</strong> {{ hasilTracking.nim }}</p>
-        <p><strong>Nama:</strong> {{ hasilTracking.nama }}</p>
-        <p><strong>Status:</strong> {{ hasilTracking.status }}</p>
-        <p><strong>Ekspedisi:</strong> {{ hasilTracking.ekspedisi }}</p>
-        <p><strong>Tanggal Kirim:</strong> {{ hasilTracking.tanggalKirim }}</p>
-        <p><strong>Total:</strong> Rp {{ hasilTracking.total }}</p>
-
-        <h3>Perjalanan</h3>
-
-        <ul>
-            <li
-                v-for="item in hasilTracking.perjalanan"
-                :key="item.waktu">
-
-                {{ item.waktu }} - {{ item.keterangan }}
-
+            <li>
+                <a href="dashboard.html">
+                    <i class="fa fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
             </li>
-        </ul>
 
+            <li>
+                <a href="stok.html">
+                    <i class="fa fa-book"></i>
+                    <span>Informasi Bahan Ajar</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="tracking.html" class="active">
+                    <i class="fa fa-truck"></i>
+                    <span>Tracking Pengiriman</span>
+                </a>
+            </li>
+
+            <li class="dropdown-sidebar">
+                <a href="#" onclick="toggleLaporan(event)">
+                    <i class="fa fa-file-lines"></i>
+                    <span>Laporan</span>
+                    <i class="fa fa-chevron-down dropdown-icon" id="iconLaporan"></i>
+                </a>
+
+                <ul class="submenu" id="submenuLaporan">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-chart-line"></i>
+                            <span>Monitoring Progress</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-file"></i>
+                            <span>Rekap Bahan Ajar</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fa fa-clock-rotate-left"></i>
+                    <span>Histori Transaksi</span>
+                </a>
+            </li>
+
+        </ul>
     </div>
 
+    <div class="main">
+
+        <div class="navbar">
+
+            <div class="nav-left">
+                <button class="icon-btn" onclick="toggleSidebar()">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="nav-right">
+
+                <button class="icon-btn" onclick="toggleFullscreen()">
+                    <i class="fa fa-expand"></i>
+                </button>
+
+                <div class="user-menu">
+                    <div class="user-info" onclick="toggleDropdown()">
+                        <img src="https://i.pravatar.cc/40" alt="User">
+                        <span id="namaUser"></span>
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="#" onclick="logout()">
+                            <i class="fa fa-right-from-bracket"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="app" class="content">
+
+            <div class="page-header">
+                <div>
+                    <h1>Tracking Delivery Order</h1>
+                    <p>Tambah dan lacak pengiriman bahan ajar UT</p>
+                </div>
+
+                <button class="add-btn" @click="bukaModalTambah">
+                    <i class="fa fa-plus"></i>
+                    Tambah Delivery Order
+                </button>
+            </div>
+
+            <!--MODAL TAMBAH DELIVERY ORDER-->
+            <div class="modal vue-modal" v-if="showModalForm">
+
+                <div class="modal-content modal-large">
+
+                    <span class="close" @click="tutupModal">
+                        &times;
+                    </span>
+
+                    <h2>Tambah Delivery Order Baru</h2>
+
+                    <div class="form-grid modal-form-grid">
+
+                        <input type="text" v-model="form.nomorDO" readonly>
+
+                        <input type="text" placeholder="NIM Mahasiswa" v-model="form.nim">
+
+                        <input type="text" placeholder="Nama Mahasiswa" v-model="form.nama">
+
+                        <select v-model="form.ekspedisi">
+                            <option value="">Pilih Ekspedisi</option>
+
+                            <option 
+                                v-for="item in pengirimanList" 
+                                :key="item.kode" 
+                                :value="item.nama">
+                                {{ item.nama }}
+                            </option>
+                        </select>
+
+                        <select v-model="form.paket">
+                            <option value="">Pilih Paket Bahan Ajar</option>
+
+                            <option 
+                                v-for="item in paket" 
+                                :key="item.kode" 
+                                :value="item.kode">
+                                {{ item.kode }} - {{ item.nama }}
+                            </option>
+                        </select>
+
+                        <input type="date" v-model="form.tanggalKirim">
+
+                        <input type="text" :value="'Rp ' + formatRupiah(form.total)" readonly>
+
+                    </div>
+
+                    <div class="paket-detail" v-if="selectedPaket">
+
+                        <h3>Detail Paket</h3>
+
+                        <p>
+                            <strong v-text="selectedPaket.kode"></strong>
+                            -
+                            {{ selectedPaket.nama }}
+                        </p>
+
+                        <p>
+                            Harga Paket: Rp {{ formatRupiah(selectedPaket.harga) }}
+                        </p>
+
+                        <ul>
+                            <li v-for="item in selectedPaket.isi" :key="item">
+                                {{ item }}
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div class="button-row">
+                        <button class="add-btn" @click="tambahTracking">
+                            Simpan Delivery Order
+                        </button>
+
+                        <button class="cancel-btn" @click="tutupModal">
+                            Batal
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="tracking-box">
+
+                <h2>Cari Tracking</h2>
+
+                <div class="tracking-form">
+                    <input type="text" placeholder="Masukkan Nomor DO" v-model="cariDO">
+
+                    <button @click="cariTracking">
+                        <i class="fa fa-search"></i>
+                        Cari
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="tracking-result" v-if="hasilTracking">
+
+                <h2>Detail Pengiriman</h2>
+
+                <div class="detail-grid">
+
+                    <p><strong>Nomor DO:</strong> {{ cariDO }}</p>
+                    <p><strong>NIM:</strong> {{ hasilTracking.nim }}</p>
+                    <p><strong>Nama:</strong> {{ hasilTracking.nama }}</p>
+                    <p><strong>Status:</strong> {{ hasilTracking.status }}</p>
+                    <p><strong>Ekspedisi:</strong> {{ hasilTracking.ekspedisi }}</p>
+                    <p><strong>Tanggal Kirim:</strong> {{ hasilTracking.tanggalKirim }}</p>
+                    <p><strong>Paket:</strong> {{ hasilTracking.paket }}</p>
+                    <p><strong>Total:</strong> Rp {{ formatRupiah(hasilTracking.total) }}</p>
+
+                </div>
+
+                <div class="status perjalanan">
+                    {{ hasilTracking.status }}
+                </div>
+
+                <div class="timeline">
+                    <h3>Riwayat Perjalanan</h3>
+
+                    <div class="timeline-item" v-for="item in hasilTracking.perjalanan" :key="item.waktu">
+                        <h4>{{ item.waktu }}</h4>
+                        <p>{{ item.keterangan }}</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="table-container">
+
+                <h2>Daftar Delivery Order</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nomor DO</th>
+                            <th>NIM</th>
+                            <th>Nama</th>
+                            <th>Status</th>
+                            <th>Ekspedisi</th>
+                            <th>Paket</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr v-for="item in trackingList" :key="item.nomorDO">
+                            <td>{{ item.nomorDO }}</td>
+                            <td>{{ item.nim }}</td>
+                            <td>{{ item.nama }}</td>
+                            <td>{{ item.status }}</td>
+                            <td>{{ item.ekspedisi }}</td>
+                            <td>{{ item.paket }}</td>
+                            <td>Rp {{ formatRupiah(item.total) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
 </div>
+
 <script src="js/data-dummy.js"></script>
+<script src="js/script.js"></script>
 <script src="js/tracking-app.js"></script>
 
 </body>

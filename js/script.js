@@ -14,7 +14,7 @@ function login(event){
         let userLogin = {
             nama: "Admin SITTA",
             username: "admin",
-            role: "Administrator"
+            role: "Superadmin"
         };
 
         localStorage.setItem("userLogin", JSON.stringify(userLogin));

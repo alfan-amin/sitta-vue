@@ -55,9 +55,9 @@ var dummyData = {
           catatanHTML: "Stok <i>menipis</i>, prioritaskan reorder"
         }
       ],
-      // Simulasi status DO (opsional fitur Tracking DO)
+      // Simulasi status do (opsional fitur Tracking DO)
       tracking: {
-        "DO2025-001": {
+        "DO2026-001": {
           nim: "123456789",
           nama: "Rina Wulandari",
           status: "Dalam Perjalanan",

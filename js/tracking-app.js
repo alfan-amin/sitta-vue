@@ -45,7 +45,7 @@ new Vue({
                 .filter(key => key.startsWith(prefix))
                 .length + 1;
 
-            return `${prefix}${String(jumlahTahunIni).padStart(3, '1')}`;
+            return `${prefix}${String(jumlahTahunIni).padStart(3, '0')}`;
         },
 
         tambahTracking(){
@@ -105,7 +105,7 @@ new Vue({
             this.hasilTracking = this.tracking[this.cariDO];
 
             if(!this.hasilTracking){
-                alert("Data tracking tidak ditemukan");
+                alert("Data tracking tidak ditemukan.");
             }
         },
 
